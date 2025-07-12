@@ -2,28 +2,28 @@ use sales_project;
 
 select * FROM amazon limit 100;
 
-#Monthly Sales Trends Using CTE(COMMON TABLE EXPRESSIONS):
+# COMMON TABLE EXPRESSIONS:
 WITH monthly_sales AS (
   SELECT 
-    DATE_FORMAT(`Order Date`, '%Y-%m') AS month,
+    DATE_FORMAT('Order Date', '%Y-%m') AS month,
     SUM(sales) AS total_sales
   FROM amazon
-  GROUP BY DATE_FORMAT(`Order Date`, '%Y-%m')
+  GROUP BY DATE_FORMAT('Order Date', '%Y-%m')
 )
 SELECT * FROM monthly_sales
 ORDER BY month;
 
 # Window Function:
 SELECT 
-  `Product Name`,
+  'Product Name',
   category,
   SUM(profit) AS total_profit,
   RANK() OVER (PARTITION BY category ORDER BY SUM(profit) DESC) AS rank_in_category
 FROM amazon
-GROUP BY `Product Name`, category
+GROUP BY 'Product Name', category
 ORDER BY category, rank_in_category;
 
-#Subquery:
+# Subquery:
 SELECT geography, total_profit
 FROM (
   SELECT geography, SUM(profit) AS total_profit
@@ -34,7 +34,7 @@ ORDER BY total_profit DESC
 LIMIT 1;
 
 
-#Top-Selling Product list by Revenu
+# Top-Selling Product list by Revenu
 SELECT category, SUM(sales) AS total_sales
 FROM amazon
 GROUP BY category
